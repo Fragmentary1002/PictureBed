@@ -26,7 +26,7 @@ async function getImgUrl(file){
 	try{
 		let bitmap = fs.readFileSync(file)
 		let base64Img = Buffer.from(bitmap).toString('base64')
-		let timestamp = moment().format('YYYY/MM/DD/')+Math.random()+'.jpg'
+		let timestamp = moment().format('YYYY/MM/DD/')+Math.round(Math.random()*100000000)+'.jpg'
 		let imageUrl = 'https://api.github.com/repos/'+repo+'/contents/'+timestamp
 		let body = {
 			'branch': 'master',
