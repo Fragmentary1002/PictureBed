@@ -8,8 +8,11 @@ const url = process.env.URL || '/api'
 
 log4js.configure({
   appenders: {
-    { type: 'console' },
-    { type: 'file', filename: 'app.log', category: 'GithubPicBed' }
+    console: { type: 'console' },
+    app: { type: 'file', filename: 'app.log' }
+  },
+  categories: {
+    GithubPicBed: { appenders: ['app'], level: 'info' }
   }
 })
 
