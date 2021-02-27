@@ -55,8 +55,17 @@ http.createServer(function (req, res) {
   if (req.url == url) {
     var form = new formidable.IncomingForm()
     form.parse(req, function (err, fields, files) {
-      if(err) {
+      if (err) {
         res.send(err)
+        return
+      }
+      if (fields.secret != process.env.SECRET) {
+        res.writeHead(403, {"Content-Type": "text/json"})
+        res.write(JSON.stringify({
+          status: 'false',
+          info: 'Secret key error.'
+        }))
+        res.end()
         return
       }
       if (!files.file) {
@@ -69,7 +78,6 @@ http.createServer(function (req, res) {
         res.end()
         return
       }
-
       addTask(files.file.path, res)
     })
   } else {
