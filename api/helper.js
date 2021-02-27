@@ -42,8 +42,8 @@ async function getImgUrl(file){
 		})
 		imgUrl = upImgResp.data['content']['download_url']
 		if (imgUrl) {
-			log.info('Successfully uploaded an image to: '+imgUrl)
-			return imgUrl
+			log.info('Successfully uploaded an image to: '+timestamp)
+			return timestamp
 		} else {
 			throw 'Image url not found.'
 		}
