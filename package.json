@@ -2,7 +2,7 @@
   "name": "GithubPicBed",
   "version": "1.0.0",
   "description": "Github image hosting api",
-  "main": "index.js",
+  "main": "api/index.js",
   "author": "hans362",
   "license": "MIT",
   "dependencies": {
