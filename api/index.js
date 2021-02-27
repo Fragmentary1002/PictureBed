@@ -4,7 +4,7 @@ const getImgUrl = require('./helper.js')
 var log4js = require('log4js')
 
 var port = process.env.PORT || 8080
-const url = process.env.URL || '/upload'
+const url = process.env.URL || '/api'
 
 log4js.configure({
   appenders: [
