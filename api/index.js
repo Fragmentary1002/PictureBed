@@ -7,10 +7,10 @@ var port = process.env.PORT || 8080
 const url = process.env.URL || '/api'
 
 log4js.configure({
-  appenders: [
+  appenders: {
     { type: 'console' },
     { type: 'file', filename: 'app.log', category: 'GithubPicBed' }
-  ]
+  }
 })
 
 var log = log4js.getLogger('GithubPicBed')
