@@ -7,11 +7,15 @@ const moment = require('moment');
 moment.locale('zh-cn');
 
 var log4js = require('log4js')
+
 log4js.configure({
-  appenders: [
-    { type: 'console' },
-    { type: 'file', filename: 'app.log', category: 'GithubPicBed' }
-  ]
+  appenders: {
+    console: { type: 'console' },
+    app: { type: 'file', filename: 'app.log' }
+  },
+  categories: {
+    GithubPicBed: { appenders: ['app'], level: 'info' }
+  }
 })
 
 var log = log4js.getLogger('GithubPicBed')
