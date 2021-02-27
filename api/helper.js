@@ -1,8 +1,9 @@
 const axios = require('axios')
 const fs = require('fs')
-const config = require('./config.json')
-const {repo, token} = config
+const repo = process.env.REPO
+const token = process.env.TOKEN
 const moment = require('moment');
+
 moment.locale('zh-cn');
 
 var log4js = require('log4js')
@@ -12,6 +13,7 @@ log4js.configure({
     { type: 'file', filename: 'app.log', category: 'GithubPicBed' }
   ]
 })
+
 var log = log4js.getLogger('GithubPicBed')
 
 /**
@@ -20,15 +22,15 @@ var log = log4js.getLogger('GithubPicBed')
  */
 async function getImgUrl(file){
 	if (repo.length == 0 || repo.length == 0)
-		throw 'config error'
+		throw 'ENV error.'
 	try{
 		let bitmap = fs.readFileSync(file)
 		let base64Img = Buffer.from(bitmap).toString('base64')
-		let timestamp = moment().format('YYYYMMDDHHmmss')+'.jpg'
+		let timestamp = moment().format('YYYY/MM/DD/')+Math.random()+'.jpg'
 		let imageUrl = 'https://api.github.com/repos/'+repo+'/contents/'+timestamp
 		let body = {
 			'branch': 'master',
-			'message': 'upload image',
+			'message': 'Upload image',
 			'content': base64Img,
 			'path': timestamp,
 		}
@@ -40,15 +42,15 @@ async function getImgUrl(file){
 		})
 		imgUrl = upImgResp.data['content']['download_url']
 		if (imgUrl) {
-			log.info('success upload a pic to: '+imgUrl)
+			log.info('Successfully uploaded an image to: '+imgUrl)
 			return imgUrl
 		} else {
-			throw 'no img url '
+			throw 'Image url not found.'
 		}
 	}
 	catch(e){
-		log.error('upload failed with error: '+e)
-		throw 'no img url '
+		log.error('Failed to upload image: '+e)
+		throw 'Image url not found.'
 	}
 }
 
