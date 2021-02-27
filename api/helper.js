@@ -14,7 +14,7 @@ log4js.configure({
     app: { type: 'file', filename: 'app.log' }
   },
   categories: {
-    GithubPicBed: { appenders: ['app'], level: 'info' }
+    default: { appenders: ['app'], level: 'info' }
   }
 })
 
