@@ -31,13 +31,13 @@ function addTask(file, response) {
       let response = tasks[0]["response"]
       getImgUrl(file).then((result)=>{
         if (result) {
-          response.writeHead(200, {"Content-Type": "text/json"})
+          response.writeHead(200, {"Content-Type": "text/json", 'Access-Control-Allow-Origin': '*'})
           response.write(JSON.stringify({
             status:'success',
             url:result
           }))
         } else {
-          response.writeHead(500, {"Content-Type": "text/json"})
+          response.writeHead(500, {"Content-Type": "text/json", 'Access-Control-Allow-Origin': '*'})
           response.write(JSON.stringify({
             status:'false'
           }))
@@ -63,16 +63,16 @@ http.createServer(function (req, res) {
         return
       }
       if (fields.secret != process.env.SECRET) {
-        res.writeHead(403, {"Content-Type": "text/json"})
+        res.writeHead(403, {"Content-Type": "text/json", 'Access-Control-Allow-Origin': '*'})
         res.write(JSON.stringify({
           status: 'false',
-          info: 'Secret key error.'
+          info: 'Secret key invalid.'
         }))
         res.end()
         return
       }
       if (!files.file) {
-        res.writeHead(500, {"Content-Type": "text/json"})
+        res.writeHead(500, {"Content-Type": "text/json", 'Access-Control-Allow-Origin': '*'})
         log.error('File not found.')
         res.write(JSON.stringify({
           status: 'false',
@@ -84,7 +84,7 @@ http.createServer(function (req, res) {
       addTask(files.file.path, res)
     })
   } else {
-      res.writeHead(404, {"Content-Type": "text/plain"})
+      res.writeHead(404, {"Content-Type": "text/plain", 'Access-Control-Allow-Origin': '*'})
       res.write('404 Not Found.')
       res.end()
   }

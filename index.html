@@ -9,7 +9,7 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
-    <script src="http://wechatfe.github.io/vconsole/lib/vconsole.min.js?v=3.2.0"></script>
+    <script src="https://wechatfe.github.io/vconsole/lib/vconsole.min.js"></script>
     <script>
         // init vConsole
         var vConsole = new VConsole();
@@ -119,9 +119,8 @@
                 console.log(fileData);
                 console.log(remote);
                 $.ajax({
-                    url: "/api",
+                    url: remote,
                     type: "POST",
-                    dataType: "jsonp",
                     data: fileData,
                     processData: false,  // 不处理数据
                     contentType: false,   // 不设置内容类型
