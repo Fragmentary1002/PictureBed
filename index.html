@@ -153,8 +153,9 @@
                         }
                     },
                     error: function (brideMsg) {
+                        $('#upload-form').remove();
                         $('#upload-body').append(`
-                        {localMsg[2].imgpf + bridgeMsg.url}         <div class="alert alert-danger m-3" role="alert">
+                        <div class="alert alert-danger m-3" role="alert">
                             上传失败，请检查「服务器设置」。
                         </div>
                         `);
