@@ -63,7 +63,7 @@ http.createServer(function (req, res) {
         return
       }
       if (fields.secret != process.env.SECRET) {
-        res.writeHead(403, {"Content-Type": "text/json", 'Access-Control-Allow-Origin': '*'})
+        res.writeHead(200, {"Content-Type": "text/json", 'Access-Control-Allow-Origin': '*'})
         res.write(JSON.stringify({
           status: 'false',
           info: 'Secret key invalid.'
@@ -72,7 +72,7 @@ http.createServer(function (req, res) {
         return
       }
       if (!files.file) {
-        res.writeHead(500, {"Content-Type": "text/json", 'Access-Control-Allow-Origin': '*'})
+        res.writeHead(200, {"Content-Type": "text/json", 'Access-Control-Allow-Origin': '*'})
         log.error('File not found.')
         res.write(JSON.stringify({
           status: 'false',

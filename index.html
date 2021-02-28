@@ -138,7 +138,7 @@
                             <div class="alert alert-success m-3" role="alert">
                                 上传成功！
                             </div>
-                            <img src="${localMsg[2].imgpf + bridgeMsg.url}" class="img-fluid m-3" alt="Image Uploaded">
+                            <img src="${localMsg[2].imgpf + bridgeMsg.url}" class="rounded mx-auto d-block m-3" alt="Image Uploaded">
                             <p class="card-text">URL: </p>
                             <pre>${localMsg[2].imgpf + bridgeMsg.url}</pre>
                             <p class="card-text">MarkDown: </p>
@@ -147,7 +147,7 @@
                         } else {
                             $('#upload-body').append(`
                             <div class="alert alert-danger m-3" role="alert">
-                                上传失败，桥接服务器返回：${bridgeMsg.info}。
+                                上传失败，连接至桥接服务器成功，返回：${bridgeMsg.info}
                             </div>
                             `);
                         }
@@ -155,7 +155,7 @@
                     error: function (brideMsg) {
                         $('#upload-body').append(`
                         {localMsg[2].imgpf + bridgeMsg.url}         <div class="alert alert-danger m-3" role="alert">
-                            上传失败，桥接服务器返回：${bridgeMsg.info}。
+                            上传失败，请检查「服务器设置」。
                         </div>
                         `);
                     }
