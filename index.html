@@ -50,10 +50,13 @@
                         <label for="secret" class="form-label">通信密钥</label>
                         <input type="password" class="form-control" id="secret" placeholder="">
                     </div>
+                    <div class="mb-3">
+                        <label for="imgpf" class="form-label">图片 URL 前缀</label>
+                        <input type="text" class="form-control" id="imgpf" placeholder="">
+                    </div>
                     <div class="col-12">
                         <button class="btn btn-primary" id="save-settings">保存设置</button>
                     </div>
-
                 </form>
             </div>
         </div>
@@ -64,10 +67,10 @@
             <div class="card-header">
                 图片上传
             </div>
-            <div class="card-body">
+            <div class="card-body" id="upload-body">
                 <form id="upload-form">
                     <div class="mb-3">
-                        <input class="form-control" type="file" id="img-selector" multiple>
+                        <input class="form-control" type="file" accept="image/*" id="img-selector">
                     </div>
                     <div class="col-12">
                         <button class="btn btn-primary" type="button" id="upload-img">确认上传</button>
@@ -96,6 +99,7 @@
                 $('#settings-alert').text('检测到本地已保存的服务器设置。')
                 $('#bridge').val(localMsg[0].bridge)
                 $('#secret').val(localMsg[1].secret)
+                $('#imgpf').val(localMsg[2].imgpf)
                 $('#img-upload').removeClass('invisible')
                 //console.log(localMsg[0].bridge);
             } else {
@@ -108,16 +112,18 @@
                 window.localStorage.formSettings = '';
                 settings.push({ "bridge": $('#bridge').val() })
                 settings.push({ "secret": $('#secret').val() })
+                settings.push({ "imgpf": $('#imgpf').val() })
                 window.localStorage.formSettings = JSON.stringify(settings)
                 alert('已保存');
                 window.location.reload;
             })
             $('#upload-img').click(function () {
-                var fileData = new FormData($("#upload-form")[0]);
+                var fileData = new FormData();
+                fileData.append('file', $('#img-selector')[0].files[0]);
                 fileData.append('secret', localMsg[1].secret);
                 var remote = localMsg[0].bridge;
-                console.log(fileData);
-                console.log(remote);
+                $('#upload-img').attr('disabled', 'true');
+                $('#upload-img').text('上传中...');
                 $.ajax({
                     url: remote,
                     type: "POST",
@@ -125,11 +131,33 @@
                     processData: false,
                     contentType: false,
                     success: function (bridgeMsg) {
+                        $('#upload-form').remove();
                         if (bridgeMsg.status == 'success') {
-                            alert(bridgeMsg.url);
+                            //alert(bridgeMsg.url);
+                            $('#upload-body').append(`
+                            <div class="alert alert-success m-3" role="alert">
+                                上传成功！
+                            </div>
+                            <img src="${localMsg[2].imgpf + bridgeMsg.url}" class="img-fluid m-3" alt="Image Uploaded">
+                            <p class="card-text">URL: </p>
+                            <pre>${localMsg[2].imgpf + bridgeMsg.url}</pre>
+                            <p class="card-text">MarkDown: </p>
+                            <pre>![](${localMsg[2].imgpf + bridgeMsg.url})</pre>
+                            `);
                         } else {
-                            alert(bridgeMsg.info);
+                            $('#upload-body').append(`
+                            <div class="alert alert-danger m-3" role="alert">
+                                上传失败，桥接服务器返回：${bridgeMsg.info}。
+                            </div>
+                            `);
                         }
+                    },
+                    error: function (brideMsg) {
+                        $('#upload-body').append(`
+                        {localMsg[2].imgpf + bridgeMsg.url}         <div class="alert alert-danger m-3" role="alert">
+                            上传失败，桥接服务器返回：${bridgeMsg.info}。
+                        </div>
+                        `);
                     }
                 });
             })
