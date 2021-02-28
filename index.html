@@ -65,7 +65,7 @@
                 图片上传
             </div>
             <div class="card-body">
-                <form>
+                <form id="upload-form">
                     <div class="mb-3">
                         <input class="form-control" type="file" id="img-selector" multiple>
                     </div>
@@ -113,11 +113,7 @@
                 window.location.reload;
             })
             $('#upload-img').click(function () {
-                var fileData = new FormData();
-                var files = $('#img-selector').files;
-                for (var i = 0; i < files.length; i++) {
-                    fileData.append('file[]', files[i]);
-                }
+                var fileData = new FormData($("#upload-form")[0]);
                 fileData.append('secret', localMsg[1].secret);
                 var remote = localMsg[0].bridge;
                 console.log(fileData);
