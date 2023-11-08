@@ -6,7 +6,7 @@
   "author": "hans362",
   "license": "MIT",
   "dependencies": {
-    "axios": "^0.24.0",
+    "axios": "^1.6.1",
     "formidable": "^1.1.1",
     "gulp": "^4.0.2",
     "gulp-connect": "^5.7.0",
